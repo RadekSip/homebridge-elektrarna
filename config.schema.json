@@ -1,17 +1,28 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "ElektrarnaHomebridgePlugin",
   "pluginType": "platform",
   "singular": true,
   "strictValidation": false,
   "schema": {
     "type": "object",
-    "required": ["name"],
+    "required": [
+      "apiUrl",
+      "refreshInterval"
+    ],
     "additionalProperties": false,
     "properties": {
-      "name": {
-        "title": "Name",
+      "apiUrl": {
+        "title": "Elektrárna public API",
         "type": "string",
-        "default": "Example Dynamic Platform"
+        "default": "https://elektrarna.hostmania.eu/api/v1/currentprice/simple",
+        "description": "URL adresa pro získání aktuální ceny (pouze číslo)."
+      },
+      "refreshInterval": {
+        "title": "Interval aktualizace (minuty)",
+        "type": "integer",
+        "default": 1,
+        "minimum": 1,
+        "description": "Jak často kontrolovat cenu (v minutách). Minimální hodnota je 1 minuta."
       }
     }
   }
