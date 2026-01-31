@@ -1,6 +1,10 @@
 # Ignore source code
 src
 
+.idea/
+
+gpg/
+
 # ------------- Defaults ------------- #
 
 # gitHub actions
