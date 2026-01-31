@@ -10,6 +10,8 @@
 
 </span>
 
+_ENG: This plugin imports spot prices of electricity in the Czech Republic. I don't expect users from other countries, so the plugin is available only in Czech._
+
 **Plugin _Elektrárna_ slouží k importu aktuální spotové ceny elektřiny do _Apple Home_.**
 Díky znalosti aktuální ceny můžete automatizovat, ať už zapnout spotřebu nebo naopak vypnout zbytné a náročné spotřebiče.
 Řada uživatelů automatizuje svou domácnost pomocí _Home Assistant_, ale v některých scénářích a pro některé _Apple Home_ příslušenství může být vhodné či nutné použít _Homebridge_.

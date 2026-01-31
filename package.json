@@ -3,7 +3,7 @@
   "displayName": "Elektrárna - spotové ceny",
   "type": "module",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "Spotová cena elektřiny. Na základě ceny lze provádět automatické akce.",
   "author": "HostMania",
   "license": "Apache-2.0",
