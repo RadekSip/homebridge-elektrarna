@@ -29,7 +29,7 @@ Vzniká tak nepřesnost +- 0,25Kč, se kterou je třeba při automatizaci počí
 
 **INSTALACE**
 
-1. Přihlašte se do svého _Homebrige_
+1. Přihlašte se do svého _Homebridge_
 
 2. Otevřete v menu volbu _Terminál_
 
@@ -55,14 +55,6 @@ Vzniká tak nepřesnost +- 0,25Kč, se kterou je třeba při automatizaci počí
 10. Nyní by se měla spotová cena objevit v _Apple Home_ jako teplotní senzor a můžete si ho zobrazit nebo na něj navázat automatizaci.
 
 
-<p align="center">
+<p><img src="/images/screenshot-homekit1.png" width="500"></p>
 
-<img src="/images/screenshot-homekit1.png" width="500">
-
-</p>
-
-<p align="center">
-
-<img src="/images/screenshot-homekit2.png" width="500">
-
-</p>
+<p><img src="/images/screenshot-homekit2.png" width="500"></p>
