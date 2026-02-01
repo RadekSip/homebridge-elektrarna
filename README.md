@@ -50,7 +50,7 @@ Vzniká tak nepřesnost +- 0,25Kč, se kterou je třeba při automatizaci počí
 8. Homebridge si vyžádá restart
 
 9. Po restartu se v _Příslušenství_ objeví nový "sensor" který bude mít spotovou cenu
-<p><img src="/images/install5.png" width="150"></p>
+<p><img src="/images/install5.png" width="500"></p>
 
 10. Nyní by se měla spotová cena objevit v _Apple Home_ jako teplotní senzor a můžete si ho zobrazit nebo na něj navázat automatizaci.
 Přibyly také tři kontaktní senzory, které signalizují cenovou úroveň (nízká, střední, vysoká) a lze je také využít jako signál pro další zařízení. Pokud je kontaktní čidlo rozepnuto (otevřeno), platí daná úroveň.
