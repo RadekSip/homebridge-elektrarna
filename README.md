@@ -10,15 +10,15 @@
 
 </span>
 
-_ENG: This plugin imports spot prices of electricity in the Czech Republic. I don't expect users from other countries, so the plugin is available only in Czech._
+_ENG: This plugin imports electricity spot prices for the Czech Republic. I don’t expect users from other countries, so the plugin is available only in Czech._
 
-**Plugin _Elektrárna_ slouží k importu aktuální spotové ceny elektřiny do _Apple Home_.**
-Díky znalosti aktuální ceny můžete automatizovat, ať už zapnout spotřebu nebo naopak vypnout zbytné a náročné spotřebiče.
-Řada uživatelů automatizuje svou domácnost pomocí _Home Assistant_, ale v některých scénářích a pro některé _Apple Home_ příslušenství může být vhodné či nutné použít _Homebridge_.
+**Plugin _Elektrárna_ slouží k importu aktuální spotové ceny elektřiny do [Apple Home](https://www.apple.com/home-app/) pomocí [Homebridge](https://homebridge.io).**
+
+Díky znalosti aktuální ceny můžete automatizovat akce a využít ji ve svých scénářích, ať už zapnout spotřebu nebo naopak vypnout zbytné a náročné spotřebiče.
+Řada uživatelů automatizuje svou domácnost pomocí [Home Assistant](https://www.home-assistant.io), ale v některých scénářích a pro některé _Apple Home_ příslušenství může být vhodné či nutné použít _Homebridge_.
 Tento plugin Vám dává další možnost jak automatizovat.
 
 Ceny se získávají z veřejného API projektu [Elektrárna](https://elektrarna.hostmania.eu), ve výchozím nastavení každou minutu. Ceny jsou v Kč/kWh bez DPH.
-
 **_Apple Home_ má značná omezení oproti _Home Assistant_ a z toho vyplývají tyto tři nepříjemnosti:**
 1. plugin _Elektrárna_ se do _Apple Home_ integruje jako teplotní čidlo (z dostupných možností pouze teplota umožňuje záporná čísla a zároveň má desetinná místa)
 2. nelze odebrat symbol stupňů Celsia (_Apple HomeKit_ vůbec nepodporuje bezrozměrná čísla a doplňuje sám jednotky)
@@ -26,35 +26,34 @@ Ceny se získávají z veřejného API projektu [Elektrárna](https://elektrarna
 Vzniká tak nepřesnost +- 0,25Kč, se kterou je třeba při automatizaci počítat.
 
 
-<span align="center">
 
-**Vizte tento příklad:**
+**INSTALACE**
 
-Aktuální spotová cena získaná pluginem je 3.14 Kč/kWh
+1. Přihlašte se do svého _Homebrige_
 
-V _Homebridge_ je zaokrouhlena na jedno místo: 3.1
+2. Otevřete v menu volbu _Terminál_
 
-V _Apple Home_ je vidět hodnota po půl stupních: 3.0
+3. Zadejte do něj příkaz: `hb-service add homebridge-elektrarna`
+   <p><img src="/images/install1.png" width="500"></p>
 
-</span>
+4. Počkejte na konec instalace balíčku
 
-<p align="center">
+5. Pro dokončení a zapnutí pluginu je třeba jít do _Pluginy_
+<p><img src="/images/install2.png" width="500"></p>
 
-<img src="/images/screenshot-homebridge1.png" width="150">
+6. Otevřete _Nastavení_ tohoto nově nainstalovaného pluginu a **uložte ho** (tj. nezavírejte ho bez uložení)
+   <p><img src="/images/install3.png" width="500"></p>
 
-</p>
+7. V dalším kroku ukládání vypněte volbu _dětský bridge_ - pokud byste to nechali zapnuté, zkomplikovali byste si přidání. Uložte to.
+<p><img src="/images/install4.png" width="500"></p>
 
-<p align="center">
+8. Homebridge si vyžádá restart
 
-<img src="/images/screenshot-homebridge2.png" width="500">
+9. Po restartu se v _Příslušenství_ objeví nový "sensor" který bude mít spotovou cenu
+<p><img src="/images/install5.png" width="150"></p>
 
-</p>
+10. Nyní by se měla spotová cena objevit v _Apple Home_ jako teplotní senzor a můžete si ho zobrazit nebo na něj navázat automatizaci.
 
-<p align="center">
-
-<img src="/images/screenshot-settings.png" width="500">
-
-</p>
 
 <p align="center">
 
