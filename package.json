@@ -2,7 +2,7 @@
   "name": "homebridge-elektrarna",
   "displayName": "Elektrárna - spotové ceny",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": false,
   "description": "Spotová cena elektřiny pro automatizace v Apple Home",
   "author": "HostMania",
