@@ -2,6 +2,17 @@ import type { CharacteristicValue, PlatformAccessory, Service } from 'homebridge
 
 import type { ElektrarnaHomebridgePlatform } from './platform.js';
 
+interface ElektrarnaResponse {
+  hour: number;
+  minute: number;
+  priceEur: number;
+  priceCzk: number;
+  priceCzkVat: number;
+  priceCzkKwh: number;
+  exchRateCzkEur: number;
+  priceLevel: string;
+}
+
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
@@ -9,6 +20,9 @@ import type { ElektrarnaHomebridgePlatform } from './platform.js';
  */
 export class ElektrarnaPlatformAccessory {
   private service: Service;
+  private serviceLow: Service;
+  private serviceMedium: Service;
+  private serviceHigh: Service;
 
   constructor(
     private readonly platform: ElektrarnaHomebridgePlatform,
@@ -20,20 +34,33 @@ export class ElektrarnaPlatformAccessory {
       .setCharacteristic(this.platform.Characteristic.Model, 'Elektrarna public API')
       .setCharacteristic(this.platform.Characteristic.SerialNumber, '100001');
 
-    // get the TemperatureSensor service if it exists, otherwise create a new TemperatureSensor service
+    // --- Temperature Sensor (Price) ---
     this.service = this.accessory.getService(this.platform.Service.TemperatureSensor) || this.accessory.addService(this.platform.Service.TemperatureSensor);
-
-    // set the service name
     this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.displayName);
 
-    // register handlers for the CurrentTemperature Characteristic
     this.service.getCharacteristic(this.platform.Characteristic.CurrentTemperature)
       .setProps({
-        minValue: -1000, // Allow negative prices
-        maxValue: 1000,  // Allow high prices
-        minStep: 0.01,    // Allow 2 decimal places precision
+        minValue: -1000,
+        maxValue: 1000,
+        minStep: 0.01,
       })
       .onGet(this.getCurrentPrice.bind(this));
+
+    // --- Contact Sensor (Low Price) ---
+    this.serviceLow = this.accessory.getServiceById(this.platform.Service.ContactSensor, 'low') 
+      || this.accessory.addService(this.platform.Service.ContactSensor, 'Cena: Nízká', 'low');
+    this.serviceLow.setCharacteristic(this.platform.Characteristic.Name, 'Cena: Nízká');
+
+    // --- Contact Sensor (Medium Price) ---
+    this.serviceMedium = this.accessory.getServiceById(this.platform.Service.ContactSensor, 'medium') 
+      || this.accessory.addService(this.platform.Service.ContactSensor, 'Cena: Střední', 'medium');
+    this.serviceMedium.setCharacteristic(this.platform.Characteristic.Name, 'Cena: Střední');
+
+    // --- Contact Sensor (High Price) ---
+    this.serviceHigh = this.accessory.getServiceById(this.platform.Service.ContactSensor, 'high') 
+      || this.accessory.addService(this.platform.Service.ContactSensor, 'Cena: Vysoká', 'high');
+    this.serviceHigh.setCharacteristic(this.platform.Characteristic.Name, 'Cena: Vysoká');
+
 
     // Calculate refresh interval (default 1 minute, minimum 1 minute)
     let intervalMinutes = this.platform.config.refreshInterval || 1;
@@ -61,21 +88,26 @@ export class ElektrarnaPlatformAccessory {
    */
   async getCurrentPrice(): Promise<CharacteristicValue> {
     // Get URL from config, or use default if not set
-    const apiUrl = this.platform.config.apiUrl || 'https://elektrarna.hostmania.eu/api/v1/currentprice/simple';
+    const apiUrl = this.platform.config.apiUrl || 'https://elektrarna.hostmania.eu/api/v1/currentprice';
 
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const price = await response.text();
-      const priceValue = parseFloat(price);
+      
+      const data = await response.json() as ElektrarnaResponse;
+      const priceValue = data.priceCzkKwh;
 
-      if (isNaN(priceValue)) {
+      if (typeof priceValue !== 'number' || isNaN(priceValue)) {
         throw new Error('Received price is not a number');
       }
 
       this.platform.log.debug('Get Characteristic CurrentPrice ->', priceValue);
+      this.platform.log.debug('Current Price Level ->', data.priceLevel);
+
+      // Update Level Sensors
+      this.updateLevelSensors(data.priceLevel);
 
       // Return the raw value
       return priceValue;
@@ -83,5 +115,34 @@ export class ElektrarnaPlatformAccessory {
       this.platform.log.error('Failed to fetch current price:', error);
       throw new this.platform.api.hap.HapStatusError(this.platform.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
     }
+  }
+
+  /**
+   * Updates the 3 contact sensors based on the current level
+   */
+  updateLevelSensors(level: string) {
+    // CONTACT_NOT_DETECTED = Open (Otevřeno) -> This is what we want when ACTIVE
+    // CONTACT_DETECTED = Closed (Zavřeno) -> This is what we want when INACTIVE
+    
+    const activeState = this.platform.Characteristic.ContactSensorState.CONTACT_NOT_DETECTED;
+    const inactiveState = this.platform.Characteristic.ContactSensorState.CONTACT_DETECTED;
+
+    // Low
+    this.serviceLow.updateCharacteristic(
+      this.platform.Characteristic.ContactSensorState,
+      level === 'low' ? activeState : inactiveState,
+    );
+
+    // Medium
+    this.serviceMedium.updateCharacteristic(
+      this.platform.Characteristic.ContactSensorState,
+      level === 'medium' ? activeState : inactiveState,
+    );
+
+    // High
+    this.serviceHigh.updateCharacteristic(
+      this.platform.Characteristic.ContactSensorState,
+      level === 'high' ? activeState : inactiveState,
+    );
   }
 }

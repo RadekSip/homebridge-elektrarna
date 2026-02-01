@@ -53,8 +53,17 @@ Vzniká tak nepřesnost +- 0,25Kč, se kterou je třeba při automatizaci počí
 <p><img src="/images/install5.png" width="150"></p>
 
 10. Nyní by se měla spotová cena objevit v _Apple Home_ jako teplotní senzor a můžete si ho zobrazit nebo na něj navázat automatizaci.
+Přibyly také tři kontaktní senzory, které signalizují cenovou úroveň (nízká, střední, vysoká) a lze je také využít jako signál pro další zařízení. Pokud je kontaktní čidlo rozepnuto (otevřeno), platí daná úroveň.
+V _Homebridge_ je uvidíte správně pojmenované, _Apple Home_ je může pojmenovat všechny stejně. V takovém případě musíte zjistit, který je který a pojmenovat si je sami.
+
+Všechny cenové úseky (15min) jsou rozděleny rovnoměrně do tří cenových skupin: nízká, střední, vysoká.
+Tj. 8 hodin (32 čtvrthodin) je nejlevnějších, podobně to platí i pro střední a vysoké. Nejde ale o souvislý blok 8 hodin! Vizte web [Elektrárna](https://elektrarna.hostmania.eu)
 
 
 <p><img src="/images/screenshot-homekit1.png" width="500"></p>
 
 <p><img src="/images/screenshot-homekit2.png" width="500"></p>
+
+<p><img src="/images/screenshot-homekit3.png" width="500"></p>
+
+<p><img src="/images/screenshot-homekit4.png" width="500"></p>
