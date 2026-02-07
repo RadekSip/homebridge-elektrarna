@@ -88,7 +88,7 @@ export class ElektrarnaPlatformAccessory {
    */
   async getCurrentPrice(): Promise<CharacteristicValue> {
     // Get URL from config, or use default if not set
-    const apiUrl = this.platform.config.apiUrl || 'https://elektrarna.hostmania.eu/api/v1/currentprice';
+    const apiUrl = this.platform.config.apiUrl || 'https://elektrarna-api.hostmania.eu/api/v1/currentprice';
 
     try {
       const response = await fetch(apiUrl);

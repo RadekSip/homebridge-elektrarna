@@ -14,7 +14,7 @@
       "apiUrl": {
         "title": "Elektrárna public API",
         "type": "string",
-        "default": "https://elektrarna.hostmania.eu/api/v1/currentprice",
+        "default": "https://elektrarna-api.hostmania.eu/api/v1/currentprice",
         "description": "URL adresa pro získání aktuálních cenových údajů."
       },
       "refreshInterval": {
